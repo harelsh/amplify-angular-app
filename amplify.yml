@@ -2,6 +2,7 @@ version: 1
 backend:
   phases:
     build:
+      maxFileSize: 5000000
       environment:
         variables:
           AWS_NODEJS_VERSION: 18.19.0
@@ -12,6 +13,7 @@ backend:
 frontend:
   phases:
     build:
+      maxFileSize: 5000000
       environment:
         variables:
           AWS_NODEJS_VERSION: 18.19.0
