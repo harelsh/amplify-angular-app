@@ -1,24 +1,19 @@
 <!-- todos.component.html -->
 <main>
-    <h1>My todos</h1>
+    <h1>What you would like to do today</h1>
     <button (click)="createTodo()">+ new</button>
     <ul>
-        <li 
-            *ngFor="let todo of todos;">
+        <li *ngFor="let todo of todos;" (click)="deleteTodo(todo.id)">
             {{ todo.content }}
         </li>
-    </ul>
+      </ul>
     
-  <div>
+  <!--div>
     <br />
     Delete on click
-</div>
+</div-->
     
-  <ul>
-    <li *ngFor="let todo of todos;" (click)="deleteTodo(todo.id)">
-        {{ todo.content }}
-    </li>
-  </ul>
+  
 
 
 

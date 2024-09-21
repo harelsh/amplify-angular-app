@@ -4,8 +4,9 @@ import { TodosComponent } from './todos/todos.component';
 import { Amplify } from 'aws-amplify';
 import outputs from '../../amplify_outputs.json';
 import { AmplifyAuthenticatorModule, AuthenticatorService } from '@aws-amplify/ui-angular';
+import { Interactions } from '@aws-amplify/interactions';
 
-//Amplify.configure(outputs);
+Amplify.configure(outputs);
 
 @Component({
   selector: 'app-root',
@@ -23,9 +24,9 @@ export class AppComponent {
       ...Amplify.getConfig(),
       Interactions: {
         LexV2: {
-          'Prod': {
-            aliasId: 'Prod',
-            botId: '13WXGCLGR8',
+          'NegotiateandMakeAppointmentBot': {
+            aliasId: 'CFDVKWBDVM',
+            botId: 'I3UNKY6RXF',
             localeId: 'en_US',
             region: 'us-east-1'
           }
@@ -46,7 +47,7 @@ export class AppComponent {
         order: 3,
         required: true
       },
-      preferred_username: {
+      username: {
         order: 2,
         required: true
       },
@@ -148,5 +149,19 @@ export class AppComponent {
     this.printUser(null);
     let username = localStorage.getItem("preferred_username");
     return username;
+  }
+
+  public async sendMessageToBot(){
+    const userInput = "I want to reserve a hotel for tonight";
+
+    // Provide a bot name and user input
+    const response = await Interactions.send({
+      botName: "NegotiateandMakeAppointmentBot",
+      message: userInput
+    });
+
+    // Log chatbot response
+    console.log(response['message']);
+    console.dir(response);
   }
 }
