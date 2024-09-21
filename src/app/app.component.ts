@@ -5,7 +5,7 @@ import { Amplify } from 'aws-amplify';
 import outputs from '../../amplify_outputs.json';
 import { AmplifyAuthenticatorModule, AuthenticatorService } from '@aws-amplify/ui-angular';
 
-Amplify.configure(outputs);
+//Amplify.configure(outputs);
 
 @Component({
   selector: 'app-root',
@@ -19,7 +19,19 @@ export class AppComponent {
 
     
   constructor(public authenticator: AuthenticatorService) {
-    Amplify.configure(outputs);
+    Amplify.configure({
+      ...Amplify.getConfig(),
+      Interactions: {
+        LexV2: {
+          'Prod': {
+            aliasId: 'Prod',
+            botId: '13WXGCLGR8',
+            localeId: 'en_US',
+            region: 'us-east-1'
+          }
+        }
+      }
+    });
   }
 
   /*public signUpAttributes= {}*/
