@@ -208,9 +208,23 @@ Response:
 
   public async sendMessageToBot(){
     console.log("Sending message to bot");
-    //const response = await this.sendMessage("i want to make an appointment to see a doctor?");
-    //const response2 = await this.sendMessage("Dentist");
-  
+
+    const response = await Interactions.send({
+      botName: "NegotiateandMakeAppointmentBot",
+      message: "Rest session"
+    });
+
+    console.log("111111111");
+    const response1 = await this.sendMessage("i want to make an appointment to see a doctor?");
+    console.log("22222222");
+    const response2 = await this.sendMessage("Dentist");
+    console.log("3333333333");
+    const response3 = await this.sendMessage("Tomorrow 10am");
+    console.log("4444444444");
+    const response31 = await this.sendMessage("10am");
+    console.log("555555555");
+    const response4 = await this.sendMessage("Yes");
+    console.log("6666666666");
   }
 
   private async sendMessage(userInput: string) {
