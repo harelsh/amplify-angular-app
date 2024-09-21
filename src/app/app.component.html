@@ -19,9 +19,10 @@
       let-user="user"
       let-signOut="signOut"
     >
-    <h2>Welcome, {{ getUserName() }}!</h2>
-    
-      <button (click)="signOut()">Sign Out</button>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h2>Welcome, {{ getUserName() }}!</h2>
+      <button (click)="signOut()" style="font-size: 16px; padding: 5px 10px;">Sign Out</button>
+    </div>
       <button (click)="printUser(user)">print</button>
       <button (click)="sendMessageToBot()">send message</button>
       <app-todos></app-todos>

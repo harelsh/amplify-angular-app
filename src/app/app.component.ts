@@ -17,6 +17,7 @@ Amplify.configure(outputs);
 })
 export class AppComponent {
   title = 'amplify-angular-template';
+  displayUserName: string | null = null;
 
     
   constructor(public authenticator: AuthenticatorService) {
@@ -47,7 +48,7 @@ export class AppComponent {
         order: 3,
         required: true
       },
-      username: {
+      preferred_username: {
         order: 2,
         required: true
       },
@@ -146,22 +147,183 @@ export class AppComponent {
 
 
   public getUserName(){
+
+    if(this.displayUserName != null) {
+      return this.displayUserName;
+    }
     this.printUser(null);
-    let username = localStorage.getItem("preferred_username");
-    return username;
+    this.displayUserName = localStorage.getItem("preferred_username");
+    if(this.displayUserName == null || this.displayUserName == "") {
+      alert("User name is null or empty");
+      this.displayUserName = "User";
+    }
+
+    this.registerUser();
+
+    return this.displayUserName;
+  }
+
+  private async registerUser() {
+    /*
+    invoke the following api to register the user
+https://dnrfcutbrg.execute-api.us-east-1.amazonaws.com/default/LinkersUserRegistration
+
+Method: POST
+Body:
+{
+ "userName": "Sam",
+ "userPassword": "ABCFDTS",
+ "userEmail": "mailto:john.doe@example.com",
+ "userZipCode": "87009",
+ "userCity": "Holand"
+}
+
+
+Response:
+{
+   "userID": "Linker2"
+}
+    */
+    console.log("Registering user");
+    const response = await fetch('https://dnrfcutbrg.execute-api.us-east-1.amazonaws.com/default/LinkersUserRegistration', 
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userName: localStorage.getItem("preferred_username"),
+          userLastName: localStorage.getItem("family_name"),
+          userPassword: "ABCFDTS",
+          userEmail: localStorage.getItem("email"),
+          userNumber: localStorage.getItem("phone_number"),
+          userZipCode: localStorage.getItem("zip_code"),
+          userCity: localStorage.getItem("city")})
+        });
+
+    const data = await response.json();
+    console.log("User registration response: " + data);
+
   }
 
   public async sendMessageToBot(){
-    const userInput = "I want to reserve a hotel for tonight";
+    console.log("Sending message to bot");
+    //const response = await this.sendMessage("i want to make an appointment to see a doctor?");
+    //const response2 = await this.sendMessage("Dentist");
+  
+  }
+
+  private async sendMessage(userInput: string) {
+    
 
     // Provide a bot name and user input
     const response = await Interactions.send({
       botName: "NegotiateandMakeAppointmentBot",
       message: userInput
     });
+    
+
+    //response is coming back with the following json format:
+    /*
+    {
+    "$metadata": {
+        "httpStatusCode": 200,
+        "requestId": "dba39f03-de34-4fd2-bd28-b30184530eb8",
+        "attempts": 1,
+        "totalRetryDelay": 0
+    },
+    "interpretations": [
+        {
+            "intent": {
+                "confirmationState": "None",
+                "name": "FallbackIntent",
+                "slots": {},
+                "state": "ReadyForFulfillment"
+            },
+            "interpretationSource": "Lex"
+        },
+        {
+            "intent": {
+                "name": "BookMedicalAppointment",
+                "slots": {}
+            },
+            "interpretationSource": "Lex",
+            "nluConfidence": {
+                "score": 0.69
+            }
+        },
+        {
+            "intent": {
+                "name": "ThankUser",
+                "slots": {}
+            },
+            "interpretationSource": "Lex",
+            "nluConfidence": {
+                "score": 0.55
+            }
+        },
+        {
+            "intent": {
+                "name": "NegotiationKnowledgeBaseGetServiceInfo",
+                "slots": {}
+            },
+            "interpretationSource": "Lex",
+            "nluConfidence": {
+                "score": 0.48
+            }
+        },
+        {
+            "intent": {
+                "name": "GreetUser",
+                "slots": {}
+            },
+            "interpretationSource": "Lex",
+            "nluConfidence": {
+                "score": 0.44
+            }
+        }
+    ],
+    "messages": [
+        {
+            "content": "I’m sorry, I didn’t catch that. Could you please repeat?",
+            "contentType": "PlainText"
+        }
+    ],
+    "sessionId": "us-east-2:c8880e45-24f0-cdb2-cd82-6bf71424041c",
+    "sessionState": {
+        "dialogAction": {
+            "type": "Close"
+        },
+        "intent": {
+            "confirmationState": "None",
+            "name": "FallbackIntent",
+            "slots": {},
+            "state": "ReadyForFulfillment"
+        },
+        "originatingRequestId": "3793f586-37ae-4cf1-b22a-36dbcd16fdd5",
+        "sessionAttributes": {}
+    }
+}
+    */
+
 
     // Log chatbot response
-    console.log(response['message']);
+    console.log("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX1");
+
+    response['messages'].forEach((message: any) => {
+      console.log(message.content);
+      console.log(message.contentType);
+    });
+
+    //print sessionId
+    console.log("sessionId====", response['sessionId'])
+
+    console.log("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX2");
+    
     console.dir(response);
+    console.log("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX3");
+
+    return response;
+    
   }
 }

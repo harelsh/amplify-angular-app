@@ -44,6 +44,10 @@ export class TodosComponent implements OnInit {
 
       
   deleteTodo(id: string) {
-    client.models.Todo.delete({ id })
+    
+    let todo = this.todos.find(todo => todo.id === id);
+    console.log("Selected: "+ todo.id);
+    console.log("Selected: "+ todo.content);
+    //client.models.Todo.delete({ todo.id })
   }
 }
