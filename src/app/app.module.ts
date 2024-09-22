@@ -11,12 +11,16 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {CommonModule} from "@angular/common";
 import { Lex2ServiceService } from './services/lex2-service.service';
+import { TodosComponent } from './todos/todos.component';
+import { InteractComponent } from './interact/interact.component';
 
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    TodosComponent,
+    InteractComponent
   ],
   imports: [
     CommonModule,

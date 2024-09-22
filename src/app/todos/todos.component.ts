@@ -50,4 +50,13 @@ export class TodosComponent implements OnInit {
     console.log("Selected: "+ todo.content);
     //client.models.Todo.delete({ todo.id })
   }
+
+  actionTodo(id: string) {
+    let todo = this.todos.find(todo => todo.id === id);
+    let todoAction= todo.content;
+    console.log("Action Todo: " + todoAction);
+    localStorage.setItem('todoAction', todoAction);
+    localStorage.setItem('appState', 'action');
+    //let action = window.prompt('Action Todo: ' + todoAction);
+  }
 }

@@ -1,0 +1,13 @@
+<main>
+    
+    <button (click)="closeMe()" style="font-size: 16px; padding: 3px 8px; ">Go Back</button>
+    <!--add text box below and each line will be the value from messages array-->
+    <div>
+        <div *ngFor="let message of messages">
+            {{ message.from }}: {{ message.text }}
+        </div>
+        <input type="text" [(ngModel)]="message" (keyup.enter)="sendMessageToBot()">
+        <button (click)="sendMessageToBot()" style="font-size: 16px; padding: 1px 10px; background-color: dimgrey;">send</button>
+    </div>
+    
+</main>

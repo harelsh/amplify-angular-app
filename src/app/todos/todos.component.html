@@ -1,9 +1,9 @@
 <!-- todos.component.html -->
 <main>
     <h2>What would you like to do today?</h2>
-    <button (click)="createTodo()">+ new</button>
+    <!--button (click)="createTodo()">+ new</button-->
     <ul>
-        <li *ngFor="let todo of todos;" (click)="deleteTodo(todo.id)">
+        <li *ngFor="let todo of todos;" (click)="actionTodo(todo.id)">
             {{ todo.content }}
         </li>
       </ul>

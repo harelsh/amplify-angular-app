@@ -1,10 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TodosComponent } from './todos/todos.component';
-import { Amplify } from 'aws-amplify';
+import { InteractComponent } from './interact/interact.component';
+import  {Amplify} from 'aws-amplify';
+//import { post } from 'aws-amplify/api';
 import outputs from '../../amplify_outputs.json';
 import { AmplifyAuthenticatorModule, AuthenticatorService } from '@aws-amplify/ui-angular';
 import { Interactions } from '@aws-amplify/interactions';
+import {CommonModule} from "@angular/common";
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms'; 
 
 Amplify.configure(outputs);
 
@@ -13,9 +18,9 @@ Amplify.configure(outputs);
   standalone: true,
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
-  imports: [RouterOutlet, TodosComponent, AmplifyAuthenticatorModule],
+  imports: [ RouterOutlet, TodosComponent, AmplifyAuthenticatorModule, InteractComponent, CommonModule, FormsModule],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'amplify-angular-template';
   displayUserName: string | null = null;
 
@@ -34,6 +39,10 @@ export class AppComponent {
         }
       }
     });
+  }
+
+  ngOnInit() {
+    localStorage.setItem("appState", "main");
   }
 
   /*public signUpAttributes= {}*/
@@ -83,8 +92,21 @@ export class AppComponent {
     },
   }
 
+  public getCurrentAppState(){
+    let currentState=localStorage.getItem("appState");
+    //alert("Current State: "+currentState);
+    if(currentState==null||currentState==""){
+      localStorage.setItem("appState", "main");
+      //alert("Current State2: "+currentState);
+      currentState="main";
+    }
+    return currentState;
+  }
+
+
   //print user
   public printUser(user: any){
+
     console.log(user)
     console.log("type=====", typeof(user))
     //get all the keys from local storage and fine the one ending with idToken
@@ -211,7 +233,7 @@ Response:
 
     const response = await Interactions.send({
       botName: "NegotiateandMakeAppointmentBot",
-      message: "Rest session"
+      message: "Reset session"
     });
 
     console.log("111111111");

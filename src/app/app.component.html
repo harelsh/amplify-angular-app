@@ -19,13 +19,42 @@
       let-user="user"
       let-signOut="signOut"
     >
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-      <h2>Welcome, {{ getUserName() }}!</h2>
-      <button (click)="signOut()" style="font-size: 16px; padding: 5px 10px;">Sign Out</button>
-    </div>
-      <button (click)="printUser(user)">print</button>
-      <button (click)="sendMessageToBot()">send message</button>
-      <app-todos></app-todos>
+
+      <!--div class="fixed-width-container">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <h2>Welcome, {{ getUserName() }}!</h2>
+          <button (click)="signOut()" style="font-size: 16px; padding: 5px 10px;">Sign Out</button>
+        </div>
+        
+        <button (click)="printUser(user)">print</button>
+        <button (click)="sendMessageToBot()">send message</button>
+        
+        <ng-container *ngIf="getCurrentAppState() === 'main'; else interactTemplate">
+          <div class="full-width"><app-todos class="full-width"></app-todos></div>
+        </ng-container>
+        
+        <ng-template #interactTemplate>
+          <div class="full-width"><app-interact class="full-width"></app-interact></div>
+        </ng-template>
+      </div-->
+
+      <div class="fixed-width-container">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <h2>Welcome, {{ getUserName() }}!</h2>
+          <button (click)="signOut()" style="font-size: 16px; padding: 5px 10px;">Sign Out</button>
+        </div>
+        
+        <!--button (click)="printUser(user)">print</button>
+        <button (click)="sendMessageToBot()">send message</button-->
+        
+        <ng-container *ngIf="getCurrentAppState() === 'main'; else interactTemplate">
+          <div class="full-width"><app-todos class="full-width"></app-todos></div>
+        </ng-container>
+        
+        <ng-template #interactTemplate>
+          <div class="full-width"><app-interact class="full-width"></app-interact></div>
+        </ng-template>
+      </div>
     </ng-template>
   </amplify-authenticator>
 
